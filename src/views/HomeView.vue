@@ -126,6 +126,16 @@ export default {
     }
   }
 
+//   120:15  error  'cred' is not defined  no-undef
+
+// ✖ 1 problem (1 error, 0 warnings)
+
+
+// You may use special comments to disable some warnings.
+// Use // eslint-disable-next-line to ignore the next line.
+// Use /* eslint-disable */ to ignore all warnings in a file.
+// ERROR in [eslint]  
+
 }
 </script>
 
