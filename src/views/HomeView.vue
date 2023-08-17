@@ -38,7 +38,7 @@
                 </v-text-field>
               </v-card-subtitle>
               <v-card-actions>
-                <v-btn class="mx-auto" flat @click="login"
+                <v-btn class="mx-auto" flat @click="login()"
                   style="min-width: 18.75rem; margin-top: -1.5rem; display: flex; width: 18.75rem; padding: 0.625rem 0rem 0.70713rem 0rem; justify-content: center; align-items: center; border-radius: 0.375rem; background: var(--primary-blue, #343790); color: #FFF; font-family: Roboto; font-size: 0.875rem; font-style: normal; font-weight: 400; line-height: normal;">Log
                   In</v-btn>
 
@@ -89,30 +89,41 @@ export default {
   //   Lock
   // }
   methods: {
-    async login() {
-      if (!this.cred.userId || !this.cred.passWord) {
-        this.errorMessage = 'Please enter both User ID and Password.';
-        return;
-      }
+    // login() {
+    //   if (!this.cred.userId || !this.cred.passWord) {
+    //     this.errorMessage = 'Please enter both User ID and Password.';
+    //     return;
+    //   }
 
-      try {
-        const response = await axios.post('http://cral.crayonte.com/api/signin', {
-          username: this.cred.userId,
-          password: this.cred.passWord
-        }, { headers: { "Content-Type": "application/json" }, maxBodyLength: Infinity });
+    //   try {
+    //     const response = await axios.post('http://cral.crayonte.com/api/signin', {
+    //       username: this.cred.userId,
+    //       password: this.cred.passWord
+    //     }, { headers: { "Content-Type": "application/json" }, maxBodyLength: Infinity });
 
-        // Handle the response, e.g., redirect on successful login
-        if (response.data.success) {
-          this.errorMessage = '';
-          console.log(response)
-          // Redirect to a new page or perform other actions
-        } else {
-          this.errorMessage = 'Invalid credentials. Please try again.';
-        }
-      } catch (error) {
-        this.errorMessage = 'An error occurred. Please try again later.';
-      }
-    },
+    //     // Handle the response, e.g., redirect on successful login
+    //     if (response.data.success) {
+    //       this.errorMessage = '';
+    //       console.log(response)
+    //       // Redirect to a new page or perform other actions
+    //     } else {
+    //       this.errorMessage = 'Invalid credentials. Please try again.';
+    //     }
+    //   } catch (error) {
+    //     this.errorMessage = 'An error occurred. Please try again later.';
+    //   }
+    // },
+    login() {
+      axios({
+        method: 'post',
+        url: 'http://cral.crayonte.com/api/signin',
+        data: cred
+      }).then(function (response) {
+        console.log(response)
+      }).catch(function(error) {
+        console.log(error)
+      })
+    }
   }
 
 }
