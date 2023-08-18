@@ -23,7 +23,7 @@
             </v-card-title>
             <v-col>
               <v-card-subtitle class="mx-6" style="min-width: 18.75rem; margin-top: -0.5rem;">
-                <v-text-field placeholder="User ID" v-model="cred.userId" :rules="unrules" flat solo dense
+                <v-text-field placeholder="User ID" v-model="cred.username" :rules="unrules" flat solo dense
                   outlined></v-text-field>
               </v-card-subtitle>
               <v-card-subtitle class="mx-6" style="min-width: 18.75rem; margin-top: -1.5rem">
@@ -61,20 +61,13 @@
 </template>
 
 <script>
-// @ is an alias to /src
-// import HelloWorld from '@/components/HelloWorld.vue'
-// import PasswordField from "@/components/PasswordField.vue";
-// import Lock from '@/assets/lock.svg'
-import axios from 'axios';
-
-
 
 export default {
   data() {
     return {
       showPassword: false,
       errorMessage: '',
-      cred: { userId: '', passWord: '' },
+      cred:{ username: '', passWord: '' },
       unrules: [v => !!v || 'Name is required',
       v => (v && v.length <= 10) || 'Name must be less than 10 characters',
       ],
@@ -84,59 +77,48 @@ export default {
       ]
     };
   },
+
   name: 'HomeView',
   // components: {
   //   Lock
   // }
   methods: {
-    // login() {
-    //   if (!this.cred.userId || !this.cred.passWord) {
-    //     this.errorMessage = 'Please enter both User ID and Password.';
-    //     return;
-    //   }
+   login(){
+    const axios = require('axios');
+    // let data = JSON.stringify({
+    //   "username": "darshan",
+    //   "password": "Crayonte2023#"
+    // });
 
-    //   try {
-    //     const response = await axios.post('http://cral.crayonte.com/api/signin', {
-    //       username: this.cred.userId,
-    //       password: this.cred.passWord
-    //     }, { headers: { "Content-Type": "application/json" }, maxBodyLength: Infinity });
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: 'http://cral.crayonte.com/api/signin',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: this.cred
+    };
 
-    //     // Handle the response, e.g., redirect on successful login
-    //     if (response.data.success) {
-    //       this.errorMessage = '';
-    //       console.log(response)
-    //       // Redirect to a new page or perform other actions
-    //     } else {
-    //       this.errorMessage = 'Invalid credentials. Please try again.';
-    //     }
-    //   } catch (error) {
-    //     this.errorMessage = 'An error occurred. Please try again later.';
-    //   }
-    // },
-    login() {
-      axios({
-        method: 'post',
-        url: 'http://cral.crayonte.com/api/signin',
-        data: cred
-      }).then(function (response) {
-        console.log(response)
-      }).catch(function(error) {
-        console.log(error)
+    axios.request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+        alert(JSON.stringify(response.data));
+        // localStorage.setItem("token", response.data.token);
+        this.$store.state.LoggedIn = true
+        this.$store.state.token = response.data.token
+        this.$store.state.userid = response.data.userid
+        this.$store.state.usertype = response.data.usertype
       })
-    }
+      .catch((error) => {
+        console.log(error);
+        alert(error)
+      });
+   }
   }
-
-//   120:15  error  'cred' is not defined  no-undef
-
-// ✖ 1 problem (1 error, 0 warnings)
-
-
-// You may use special comments to disable some warnings.
-// Use // eslint-disable-next-line to ignore the next line.
-// Use /* eslint-disable */ to ignore all warnings in a file.
-// ERROR in [eslint]  
-
 }
+
+
 </script>
 
 <style>

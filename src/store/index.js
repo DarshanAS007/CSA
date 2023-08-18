@@ -7,6 +7,12 @@ Vue.use(Vuex)
 /* eslint-disable no-new */
 const store = new Vuex.Store({
   plugins: [createPersistedState()],
+  state: {
+    LoggedIn: false,
+    token: "",
+    userid: null,
+    usertype: ""
+  },
   modules: {
   }
 })
